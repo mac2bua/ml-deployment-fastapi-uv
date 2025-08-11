@@ -139,7 +139,7 @@ wheels = [
 ]
 
 [[package]]
-name = "ml-deployment-flask-uv"
+name = "ml-deployment-fastapi-uv"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

@@ -51,34 +51,14 @@ def predict_single(customer):
 
 @app.post("/predict")
 def predict(customer: CustomerData) -> PredictResponse:
-    churn = predict_single(customer.dict())
-    
-    return {
-        "churn_probability": churn,
-        "churn": bool(churn >= 0.5)
-    }
+    try:
+        churn = predict_single(customer.model_dump())
+        return PredictResponse(
+            churn_probability=churn,
+            churn=churn >= 0.5
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Model prediction failed")
 
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=9696)
-
-customer = {
-    'gender': 'male',
-    'seniorcitizen': 0,
-    'partner': 'no',
-    'dependents': 'yes',
-    'phoneservice': 'no',
-    'multiplelines': 'no_phone_service',
-    'internetservice': 'dsl',
-    'onlinesecurity': 'no',
-    'onlinebackup': 'yes',
-    'deviceprotection': 'no',
-    'techsupport': 'no',
-    'streamingtv': 'no',
-    'streamingmovies': 'no',
-    'contract': 'month-to-month',
-    'paperlessbilling': 'yes',
-    'paymentmethod': 'electronic_check',
-    'tenure': 6,
-    'monthlycharges': 29.85,
-    'totalcharges': 129.85
-}
