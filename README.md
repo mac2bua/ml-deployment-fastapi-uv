@@ -1,1 +1,1 @@
-# ml-deployment-flask-uv
+# ml-deployment-fastapi-uv
